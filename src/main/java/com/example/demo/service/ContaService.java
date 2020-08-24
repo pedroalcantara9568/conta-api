@@ -10,14 +10,17 @@ import com.example.demo.web.rest.dto.TransferenciaDTO;
 import com.example.demo.web.rest.dto.mapper.ContaMapper;
 import com.example.demo.web.rest.dto.ContaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.naming.OperationNotSupportedException;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
-public class ContaService  {
+public class ContaService {
 
     @Autowired
     ContaRepository contaRepository;
@@ -36,16 +39,16 @@ public class ContaService  {
 
     public void realizaDeposito(DepositoDTO depositoDTO) {
         ContaEntity entity = contaRepository.findById(depositoDTO.getNumeroDaConta()).get();
-        if(entity != null){
-            entity.depositar(depositoDTO.getValorDeposito());
-            contaRepository.save(entity);
-        }
+
+        entity.depositar(depositoDTO.getValorDeposito());
+        contaRepository.save(entity);
+
 
     }
 
     public void realizaSaque(SaqueDTO saqueDTO) throws OperationNotSupportedException {
         ContaEntity entity = contaRepository.getOne(saqueDTO.getNumeroDaConta());
-        if(entity.saque(saqueDTO.getValorDoSaque())){
+        if (entity.saque(saqueDTO.getValorDoSaque())) {
             contaRepository.save(entity);
         }
     }
@@ -71,7 +74,7 @@ public class ContaService  {
         if (cpf.length() != 11) {
             throw new CpfInvalidoException("CPF informado para criação de conta está inválido.");
         }
-        if (!ehNumerico(cpf)){
+        if (!ehNumerico(cpf)) {
             throw new CpfInvalidoException("CPF informado para criação de conta está inválido.");
         }
 
@@ -88,4 +91,12 @@ public class ContaService  {
         return strNumber.matches("[-+]?[0-9]*\\.?[0-9]+");
     }
 
+    public List<ContaDTO> buscaTodasContas() {
+        List<ContaEntity>  listaContasEntity = contaRepository.findAll();
+        List<ContaDTO> listaContasDto = new ArrayList<>();
+        for ( ContaEntity l : listaContasEntity  ) {
+           listaContasDto.add(ContaMapper.entityToDto(l));
+        }
+        return listaContasDto;
+    }
 }

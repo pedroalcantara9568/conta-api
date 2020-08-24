@@ -58,6 +58,7 @@ public class PassosDeposito {
     @Autowired
     ContaService contaService;
 
+    @Autowired
     ContaRepository contaRepository;
 
     @Autowired
@@ -71,11 +72,10 @@ public class PassosDeposito {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
-    @Transactional
     @Dado("que existam as seguintes contas")
     public void queExistamAsSeguintesContas(DataTable tabela) throws Exception {
         this.conta = deTabelaParaContaDto(tabela);
-        MvcResult result = mockMvc.perform(post("/conta")
+        mockMvc.perform(post("/conta")
                 .content(new Gson().toJson(this.conta))
                 .contentType(APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
@@ -116,7 +116,12 @@ public class PassosDeposito {
 
     @Então("devera ser apresentada a seguinte mensagem {string}")
     public void deveraSerApresentadaASeguinteMensagem(String mensagem) {
-        ContaRespostaDTO contaRespostaDTO = new Gson().fromJson(content, ContaRespostaDTO.class);
-        Assert.assertEquals(contaRespostaDTO.getMensagem(),mensagem);
+
+    }
+
+    @E("o saldo da conta {string} deverá ser de {string}")
+    public void oSaldoDaContaDeveráSerDe(String numeroDaConta, String saldoDaConta) {
+        ContaEntity entity = contaRepository.findById(Long.parseLong(numeroDaConta)).get();
+        entity.getSaldo().equals(Double.parseDouble(saldoDaConta));
     }
 }

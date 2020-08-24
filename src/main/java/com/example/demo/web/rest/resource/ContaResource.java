@@ -11,15 +11,14 @@ import com.example.demo.web.rest.dto.TransferenciaDTO;
 import com.example.demo.web.rest.dto.response.ContaRespostaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.naming.OperationNotSupportedException;
+import java.io.IOException;
+import java.util.List;
 
-@Controller
+@RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/conta")
 public class ContaResource {
 
@@ -30,9 +29,14 @@ public class ContaResource {
         this.contaService = contaService;
     }
 
-    @Transactional
+    @GetMapping
+    public List<ContaDTO> listaContas(){
+        List<ContaDTO> contaDTOS = contaService.buscaTodasContas();
+        return contaDTOS;
+    }
+
     @PostMapping
-    public ResponseEntity<Object> cadastraConta(@RequestBody ContaDTO contaDTO) throws SaldoInicialInvalidoException {
+    public ResponseEntity<Object> cadastraConta(@RequestBody ContaDTO contaDTO) throws IOException {
         ContaDTO contaCadastrada = contaService.salvaConta(contaDTO);
         return ResponseEntity.ok(new ContaRespostaDTO(contaCadastrada.getId(),"Conta cadastrada com sucesso!"));
     }
