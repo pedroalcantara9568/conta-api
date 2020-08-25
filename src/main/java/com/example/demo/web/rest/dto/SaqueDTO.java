@@ -1,6 +1,8 @@
 package com.example.demo.web.rest.dto;
 
 public class SaqueDTO {
+
+
     private Long numeroDaConta;
 
     private Double valorDoSaque;
