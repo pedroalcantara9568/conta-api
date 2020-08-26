@@ -10,6 +10,9 @@ public class SaqueDTO {
     public SaqueDTO() {
     }
 
+    public SaqueDTO(double parseDouble, Long id) {
+    }
+
     public Long getNumeroDaConta() {
         return numeroDaConta;
     }

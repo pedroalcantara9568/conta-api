@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;

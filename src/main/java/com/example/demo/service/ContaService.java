@@ -39,11 +39,8 @@ public class ContaService {
 
     public void realizaDeposito(DepositoDTO depositoDTO) {
         ContaEntity entity = contaRepository.findById(depositoDTO.getNumeroDaConta()).get();
-
         entity.depositar(depositoDTO.getValorDeposito());
         contaRepository.save(entity);
-
-
     }
 
     public void realizaSaque(SaqueDTO saqueDTO) throws OperationNotSupportedException {

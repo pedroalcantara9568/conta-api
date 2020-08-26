@@ -6,7 +6,6 @@ import com.example.demo.repository.ContaRepository;
 import com.example.demo.service.ContaService;
 import com.example.demo.web.rest.dto.ContaDTO;
 import com.example.demo.web.rest.dto.DepositoDTO;
-import com.example.demo.web.rest.dto.mapper.ContaMapper;
 import com.example.demo.web.rest.dto.response.ContaRespostaDTO;
 import com.example.demo.web.rest.resource.ContaResource;
 import gherkin.deps.com.google.gson.Gson;
@@ -19,13 +18,13 @@ import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.test.web.servlet.DispatcherServletCustomizer;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.nio.charset.Charset;
 import java.util.List;
@@ -35,13 +34,11 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-
-@Transactional
 public class PassosDeposito {
 
     ContaDTO conta;
 
-    DepositoDTO depositoDoCenario = new DepositoDTO();
+    DepositoDTO depositoDoCenario;
 
     MockMvc mockMvc;
 
@@ -49,8 +46,6 @@ public class PassosDeposito {
 
     String content;
 
-    @Autowired
-    MappingJackson2HttpMessageConverter jackson2HttpMessageConverter;
 
     @Autowired
     ContaResource contaResource;
@@ -64,11 +59,14 @@ public class PassosDeposito {
     @Autowired
     private WebApplicationContext context;
 
+    @Autowired
+    EntityManager entityManager;
+    
+    @Autowired
+    PassosCriarConta passosCriarConta;
+
     @PostConstruct
     public void setUp() {
-        jackson2HttpMessageConverter.setDefaultCharset(Charset.defaultCharset());
-        contaService = new ContaService(contaRepository);
-        contaResource = new ContaResource(contaService);
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
@@ -113,12 +111,7 @@ public class PassosDeposito {
         this.mvcResult = result;
         this.content = result.getResponse().getContentAsString();
     }
-
-    @Então("devera ser apresentada a seguinte mensagem {string}")
-    public void deveraSerApresentadaASeguinteMensagem(String mensagem) {
-
-    }
-
+    
     @E("o saldo da conta {string} deverá ser de {string}")
     public void oSaldoDaContaDeveráSerDe(String numeroDaConta, String saldoDaConta) {
         ContaEntity entity = contaRepository.findById(Long.parseLong(numeroDaConta)).get();

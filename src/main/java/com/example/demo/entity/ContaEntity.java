@@ -2,7 +2,6 @@ package com.example.demo.entity;
 
 
 import com.example.demo.exception.OperacaoNaoAutorizadaException;
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
