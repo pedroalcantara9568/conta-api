@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.cucumber;
 
 import com.example.demo.service.ContaService;
 import com.example.demo.web.rest.dto.ContaDTO;

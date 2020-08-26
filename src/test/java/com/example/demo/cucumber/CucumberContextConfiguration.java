@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.cucumber;
 
 import com.example.demo.BancoApplication;
 import io.cucumber.java.Before;

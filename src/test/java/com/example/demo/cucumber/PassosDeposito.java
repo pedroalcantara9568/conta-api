@@ -1,4 +1,4 @@
-package com.example.demo;
+package com.example.demo.cucumber;
 
 
 import com.example.demo.entity.ContaEntity;
@@ -6,18 +6,14 @@ import com.example.demo.repository.ContaRepository;
 import com.example.demo.service.ContaService;
 import com.example.demo.web.rest.dto.ContaDTO;
 import com.example.demo.web.rest.dto.DepositoDTO;
-import com.example.demo.web.rest.dto.response.ContaRespostaDTO;
 import com.example.demo.web.rest.resource.ContaResource;
 import gherkin.deps.com.google.gson.Gson;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.E;
-import io.cucumber.java.pt.Então;
 import io.cucumber.java.pt.Quando;
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -25,8 +21,6 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
-import javax.transaction.Transactional;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +39,6 @@ public class PassosDeposito {
     MvcResult mvcResult;
 
     String content;
-
 
     @Autowired
     ContaResource contaResource;
@@ -115,6 +108,6 @@ public class PassosDeposito {
     @E("o saldo da conta {string} deverá ser de {string}")
     public void oSaldoDaContaDeveráSerDe(String numeroDaConta, String saldoDaConta) {
         ContaEntity entity = contaRepository.findById(Long.parseLong(numeroDaConta)).get();
-        entity.getSaldo().equals(Double.parseDouble(saldoDaConta));
+       assert entity.getSaldo().equals(Double.parseDouble(saldoDaConta));
     }
 }

@@ -44,7 +44,7 @@ public class ContaService {
     }
 
     public void realizaSaque(SaqueDTO saqueDTO) throws OperationNotSupportedException {
-        ContaEntity entity = contaRepository.getOne(saqueDTO.getNumeroDaConta());
+        ContaEntity entity = contaRepository.findById(saqueDTO.getNumeroDaConta()).get();
         if (entity.saque(saqueDTO.getValorDoSaque())) {
             contaRepository.save(entity);
         }

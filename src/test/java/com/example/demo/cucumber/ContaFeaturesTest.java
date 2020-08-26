@@ -1,4 +1,4 @@
-package com.example.demo.dominio.comercio.cucumber.persistencia;
+package com.example.demo.cucumber;
 
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
@@ -8,5 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @RunWith(Cucumber.class)
 @CucumberOptions(features = "src/test/resources")
 @Configuration
-public class TestesComPersistencia {
+public class ContaFeaturesTest {
+
+
 }
