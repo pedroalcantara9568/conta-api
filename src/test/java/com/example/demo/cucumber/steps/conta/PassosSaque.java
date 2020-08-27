@@ -1,8 +1,8 @@
-package com.example.demo.cucumber.steps;
+package com.example.demo.cucumber.steps.conta;
 
+import com.example.demo.cucumber.steps.def.PassosPadroesConta;
 import com.example.demo.web.rest.dto.request.SaqueDTO;
 import gherkin.deps.com.google.gson.Gson;
-import io.cucumber.java.Before;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Quando;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,10 +37,6 @@ public class PassosSaque {
     @Autowired
     PassosPadroesConta passosPadroesConta;
 
-    @Before
-    public void limpaBanco () {
-        this.passosDeposito.contaRepository.deleteAll();
-    }
 
     @PostConstruct
     public void setUp() {
@@ -49,7 +45,7 @@ public class PassosSaque {
 
     @Dado("que seja solicitado um saque de {string}")
     public void queSejaSolicitadoUmSaqueDe (String valorDoSaque) {
-        this.saqueDTO.setNumeroDaConta(passosDeposito.conta.getNumeroCartao());
+        this.saqueDTO.setNumeroDaConta(passosDeposito.contaDTO.getNumeroConta());
         this.saqueDTO.setValorDoSaque(Double.parseDouble(valorDoSaque));
     }
 

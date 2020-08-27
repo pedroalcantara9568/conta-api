@@ -5,23 +5,23 @@ import com.example.demo.web.rest.dto.ContaDTO;
 
 public class ContaMapper {
 
-    public static Conta dtoToEntity (ContaDTO contaDTO) {
+    public static Conta dtoToEntity(ContaDTO contaDTO) {
         Conta entity = new Conta();
         entity.setCpf(contaDTO.getCpf());
         entity.setNome(contaDTO.getNome());
         entity.setSaldo(contaDTO.getSaldo());
         entity.setId(contaDTO.getId());
-        entity.setNumeroConta(contaDTO.getNumeroCartao());
+        entity.setNumeroConta(contaDTO.getNumeroConta());
         return entity;
     }
 
-    public static ContaDTO entityToDto (Conta conta) {
+    public static ContaDTO entityToDto(Conta conta) {
         ContaDTO contaDTO = new ContaDTO();
         contaDTO.setCpf(conta.getCpf());
         contaDTO.setNome(conta.getNome());
         contaDTO.setSaldo(conta.getSaldo());
         contaDTO.setId(conta.getId());
-        contaDTO.setNumeroCartao(conta.getNumeroConta());
+        contaDTO.setNumeroConta(conta.getNumeroConta());
         return contaDTO;
     }
 }

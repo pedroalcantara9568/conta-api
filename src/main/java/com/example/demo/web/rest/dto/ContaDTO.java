@@ -10,18 +10,18 @@ public class ContaDTO {
 
     private Double saldo;
 
-    private String numeroCartao;
+    private String numeroConta;
 
     public ContaDTO() {
 
     }
 
-    public String getNumeroCartao() {
-        return numeroCartao;
+    public String getNumeroConta() {
+        return numeroConta;
     }
 
-    public void setNumeroCartao(String numeroCartao) {
-        this.numeroCartao = numeroCartao;
+    public void setNumeroConta(String numeroConta) {
+        this.numeroConta = numeroConta;
     }
 
     public Long getId() {

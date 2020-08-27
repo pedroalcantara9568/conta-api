@@ -1,12 +1,9 @@
-package com.example.demo.cucumber.steps;
+package com.example.demo.cucumber.steps.conta;
 
-import com.example.demo.repository.ContaRepository;
-import com.example.demo.web.rest.dto.ContaDTO;
-import com.example.demo.web.rest.dto.mapper.ContaMapper;
+import com.example.demo.cucumber.steps.def.PassosPadroesConta;
 import com.example.demo.web.rest.dto.request.TransferenciaDTO;
 import gherkin.deps.com.google.gson.Gson;
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.Before;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Quando;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -28,25 +24,16 @@ public class PassosTransferencia {
 
     private TransferenciaDTO transferenciaDTO;
 
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    private WebApplicationContext context;
-
-    @Autowired
-    PassosPadroesConta passosPadroesConta;
-
-    @Autowired
-    ContaRepository contaRepository;
+    private PassosPadroesConta passosPadroesConta;
 
     @PostConstruct
     public void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-    }
-
-    @Before
-    public void limpaBanco() {
-        contaRepository.deleteAll();
+        mockMvc = MockMvcBuilders
+                .webAppContextSetup(passosPadroesConta.context)
+                .build();
     }
 
     @Dado("que seja solicitada um transferência com as seguintes informações")

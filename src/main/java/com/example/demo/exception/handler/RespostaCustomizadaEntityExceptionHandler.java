@@ -19,7 +19,7 @@ import java.util.Date;
 public class RespostaCustomizadaEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public final ResponseEntity<ExceptionResponse> handleAllExceptions(Exception ex, WebRequest request){
+    public final ResponseEntity<ExceptionResponse> handleAllExceptions(Exception ex, WebRequest request) {
         ExceptionResponse exceptionResponse =
                 new ExceptionResponse(
                         new Date(),
@@ -29,7 +29,7 @@ public class RespostaCustomizadaEntityExceptionHandler extends ResponseEntityExc
     }
 
     @ExceptionHandler(CpfInvalidoException.class)
-    public final ResponseEntity<ExceptionResponse> handleCpfInvalidoException(Exception ex, WebRequest request){
+    public final ResponseEntity<ExceptionResponse> handleCpfInvalidoException(Exception ex, WebRequest request) {
         ExceptionResponse exceptionResponse =
                 new ExceptionResponse(
                         new Date(),
@@ -37,8 +37,9 @@ public class RespostaCustomizadaEntityExceptionHandler extends ResponseEntityExc
                         request.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
+
     @ExceptionHandler(SaldoInicialInvalidoException.class)
-    public final ResponseEntity<ExceptionResponse> handleSaldoIncialInvalidoException(Exception ex, WebRequest request){
+    public final ResponseEntity<ExceptionResponse> handleSaldoIncialInvalidoException(Exception ex, WebRequest request) {
         ExceptionResponse exceptionResponse =
                 new ExceptionResponse(
                         new Date(),
@@ -48,7 +49,7 @@ public class RespostaCustomizadaEntityExceptionHandler extends ResponseEntityExc
     }
 
     @ExceptionHandler(OperacaoNaoAutorizadaException.class)
-    public final ResponseEntity<ExceptionResponse> handleOperacaoNaoAutorizadaException(Exception ex, WebRequest request){
+    public final ResponseEntity<ExceptionResponse> handleOperacaoNaoAutorizadaException(Exception ex, WebRequest request) {
         ExceptionResponse exceptionResponse =
                 new ExceptionResponse(
                         new Date(),
@@ -56,8 +57,6 @@ public class RespostaCustomizadaEntityExceptionHandler extends ResponseEntityExc
                         request.getDescription(false));
         return new ResponseEntity<>(exceptionResponse, HttpStatus.BAD_REQUEST);
     }
-
-
 
 
 }

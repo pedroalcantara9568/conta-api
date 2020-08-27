@@ -1,13 +1,11 @@
-package com.example.demo.cucumber.steps;
+package com.example.demo.cucumber.steps.conta;
 
 
-import com.example.demo.entity.Conta;
+import com.example.demo.cucumber.steps.def.PassosPadroesConta;
 import com.example.demo.repository.ContaRepository;
-import com.example.demo.service.ContaService;
 import com.example.demo.web.rest.dto.ContaDTO;
-import com.example.demo.web.rest.dto.request.DepositoDTO;
 import com.example.demo.web.rest.dto.mapper.ContaMapper;
-import com.example.demo.web.rest.resource.ContaResource;
+import com.example.demo.web.rest.dto.request.DepositoDTO;
 import gherkin.deps.com.google.gson.Gson;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.pt.Dado;
@@ -15,13 +13,10 @@ import io.cucumber.java.pt.E;
 import io.cucumber.java.pt.Quando;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.Map;
 
@@ -31,30 +26,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 public class PassosDeposito {
 
-    ContaDTO conta;
+    protected DepositoDTO depositoDoCenario;
 
-    DepositoDTO depositoDoCenario;
-
-    MockMvc mockMvc;
+    protected ContaDTO contaDTO;
 
     @Autowired
-    ContaResource contaResource;
+    private PassosPadroesConta passosPadroesConta;
 
     @Autowired
-    ContaService contaService;
-
-    @Autowired
-    ContaRepository contaRepository;
-
-    @Autowired
-    private WebApplicationContext context;
-
-    @Autowired
-    PassosPadroesConta passosPadroesConta;
+    private ContaRepository contaRepository;
 
     @PostConstruct
     public void setUp() {
-        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
+        passosPadroesConta.mockMvc = MockMvcBuilders
+                .webAppContextSetup(passosPadroesConta.context)
+                .build();
+        contaRepository.deleteAll();
     }
 
     @Dado("que existam as seguintes contas")
@@ -63,36 +50,35 @@ public class PassosDeposito {
     }
 
     private void deTabelaParaBanco(DataTable tabela) {
-        conta = new ContaDTO();
+        contaDTO = new ContaDTO();
         List<Map<String, String>> linhas = tabela.asMaps(String.class, String.class);
         for (Map<String, String> columns : linhas) {
-            conta.setCpf("12345678912");
-            conta.setNome("Pedro Henrique Silva de Alcântara");
-            conta.setSaldo(Double.parseDouble(columns.get("Saldo")));
-            conta.setNumeroCartao((columns.get("Numero Conta")));
-            contaRepository.save(ContaMapper.dtoToEntity(conta));
+            contaDTO.setCpf("12345678912");
+            contaDTO.setNome("Pedro Henrique Silva de Alcântara");
+            contaDTO.setSaldo(Double.parseDouble(columns.get("Saldo")));
+            contaDTO.setNumeroConta((columns.get("Numero Conta")));
+            passosPadroesConta.contaRepository.save(ContaMapper.dtoToEntity(contaDTO));
         }
-
     }
 
     @E("que seja solicitado um depósito de {string}")
     public void queSejaSolicitadoUmDepositoDe(String valorDeposito) {
         DepositoDTO depositoDTO = new DepositoDTO();
-        depositoDTO.setNumeroDaConta(this.conta.getNumeroCartao());
+        depositoDTO.setNumeroDaConta(this.contaDTO.getNumeroConta());
         depositoDTO.setValorDeposito(Double.parseDouble(valorDeposito));
-        this.depositoDoCenario = depositoDTO;
+        depositoDoCenario = depositoDTO;
     }
 
     @Quando("for executada a operação de depósito")
     public void forExecutadaAOperacaoDeDeposito() throws Exception {
-        MvcResult result = mockMvc.perform(post("http://localhost:8080/conta/deposito")
+        MvcResult result = passosPadroesConta.mockMvc.perform(post("http://localhost:8080/conta/deposito")
                 .content(new Gson().toJson(this.depositoDoCenario))
                 .contentType(APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print()).andReturn();
-        this.passosPadroesConta.mvcResult = result;
-        this.passosPadroesConta.content = result.getResponse().getContentAsString();
+        passosPadroesConta.mvcResult = result;
+        passosPadroesConta.content = result.getResponse().getContentAsString();
     }
-    
+
 
 }

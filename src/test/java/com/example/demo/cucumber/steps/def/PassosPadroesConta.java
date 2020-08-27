@@ -1,4 +1,4 @@
-package com.example.demo.cucumber.steps;
+package com.example.demo.cucumber.steps.def;
 
 import com.example.demo.entity.Conta;
 import com.example.demo.repository.ContaRepository;
@@ -9,20 +9,30 @@ import io.cucumber.java.pt.Então;
 import org.junit.Assert;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
+
+import javax.annotation.PostConstruct;
 
 public class PassosPadroesConta {
 
-    protected MvcResult mvcResult;
+    public MockMvc mockMvc;
 
-    protected String content;
+    public MvcResult mvcResult;
+
+    public String content;
 
     @Autowired
-    ContaRepository contaRepository;
+    public WebApplicationContext context;
 
-    @Before
-    public void setUp () {
-        contaRepository.deleteAll();
+    @Autowired
+    public ContaRepository contaRepository;
+
+    @PostConstruct
+    public void setUp() {
+        mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @Então("deverá ser apresentada a seguinte mensagem de erro {string}")
@@ -37,7 +47,7 @@ public class PassosPadroesConta {
     }
 
     @E("o saldo da conta {string} deverá ser de {string}")
-    public void oSaldoDaContaDeveráSerDe(String numeroDaConta, String saldoDaConta) {
+    public void oSaldoDaContaDeveraSerDe(String numeroDaConta, String saldoDaConta) {
         Conta entity = contaRepository.findByNumeroConta(numeroDaConta).get();
         assert entity.getSaldo().equals(Double.parseDouble(saldoDaConta));
     }

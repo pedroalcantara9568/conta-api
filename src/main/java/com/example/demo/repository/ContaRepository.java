@@ -8,9 +8,8 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface ContaRepository extends JpaRepository<Conta, Long>  {
+public interface ContaRepository extends JpaRepository<Conta, Long> {
 
-        Optional<Conta> findByNumeroConta(String numeroDaconta);
-
+    Optional<Conta> findByNumeroConta(String numeroDaconta);
 
 }

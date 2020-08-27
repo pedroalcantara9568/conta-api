@@ -16,27 +16,22 @@ import javax.naming.OperationNotSupportedException;
 import java.io.IOException;
 
 @RestController
-@CrossOrigin(origins = "*")
 @RequestMapping("/conta")
 public class ContaResource {
 
     @Autowired
     private ContaService contaService;
 
-    public ContaResource(ContaService contaService) {
-        this.contaService = contaService;
-    }
-
     @PostMapping
     public ResponseEntity<Object> cadastraConta(@RequestBody ContaDTO contaDTO) throws IOException {
         ContaDTO contaCadastrada = contaService.salvaConta(contaDTO);
-        return ResponseEntity.ok(new ContaRespostaDTO(contaCadastrada.getNumeroCartao(),"Conta cadastrada com sucesso!"));
+        return ResponseEntity.ok(new ContaRespostaDTO(contaCadastrada.getNumeroConta(), "Conta cadastrada com sucesso!"));
     }
 
     @PostMapping("/deposito")
     public ResponseEntity<Object> depositoEmConta(@RequestBody DepositoDTO depositoDTO) throws OperacaoNaoAutorizadaException {
         contaService.realizaDeposito(depositoDTO);
-        return ResponseEntity.ok(new ContaRespostaDTO( depositoDTO.getNumeroDaConta(),"Depósito realizado com sucesso!"));
+        return ResponseEntity.ok(new ContaRespostaDTO(depositoDTO.getNumeroDaConta(), "Depósito realizado com sucesso!"));
     }
 
     @PostMapping("/saque")
