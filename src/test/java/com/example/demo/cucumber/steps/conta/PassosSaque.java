@@ -1,6 +1,6 @@
 package com.example.demo.cucumber.steps.conta;
 
-import com.example.demo.cucumber.steps.def.PassosPadroesConta;
+import com.example.demo.cucumber.steps.conta.shared.PassosPadroesConta;
 import com.example.demo.web.rest.dto.request.SaqueDTO;
 import gherkin.deps.com.google.gson.Gson;
 import io.cucumber.java.pt.Dado;

@@ -1,7 +1,7 @@
 package com.example.demo.cucumber.steps.conta;
 
 
-import com.example.demo.cucumber.steps.def.PassosPadroesConta;
+import com.example.demo.cucumber.steps.conta.shared.PassosPadroesConta;
 import com.example.demo.repository.ContaRepository;
 import com.example.demo.web.rest.dto.ContaDTO;
 import com.example.demo.web.rest.dto.mapper.ContaMapper;

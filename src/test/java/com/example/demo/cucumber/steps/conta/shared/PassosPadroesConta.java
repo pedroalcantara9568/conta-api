@@ -1,4 +1,4 @@
-package com.example.demo.cucumber.steps.conta.def;
+package com.example.demo.cucumber.steps.conta.shared;
 
 import com.example.demo.entity.Conta;
 import com.example.demo.repository.ContaRepository;
@@ -6,7 +6,6 @@ import com.example.demo.web.rest.dto.response.ContaRespostaDTO;
 import gherkin.deps.com.google.gson.Gson;
 import io.cucumber.java.pt.E;
 import io.cucumber.java.pt.Então;
-import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -14,8 +13,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PassosPadroesConta {
 

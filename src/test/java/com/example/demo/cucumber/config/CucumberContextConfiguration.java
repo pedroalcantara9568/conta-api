@@ -1,13 +1,13 @@
 package com.example.demo.cucumber.config;
 
-import com.example.demo.BancoApplication;
+import com.example.demo.ContaApplication;
 import io.cucumber.java.Before;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
 
 
-@SpringBootTest(classes = BancoApplication.class)
+@SpringBootTest(classes = ContaApplication.class)
 public class CucumberContextConfiguration {
 
     @Before
