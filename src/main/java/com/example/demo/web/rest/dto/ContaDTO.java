@@ -10,11 +10,18 @@ public class ContaDTO {
 
     private Double saldo;
 
-    public ContaDTO(String nome, String cpf, Double saldo) {
-    }
+    private String numeroCartao;
 
     public ContaDTO() {
 
+    }
+
+    public String getNumeroCartao() {
+        return numeroCartao;
+    }
+
+    public void setNumeroCartao(String numeroCartao) {
+        this.numeroCartao = numeroCartao;
     }
 
     public Long getId() {

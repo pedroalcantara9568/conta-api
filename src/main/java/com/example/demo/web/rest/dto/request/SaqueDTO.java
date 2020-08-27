@@ -1,9 +1,9 @@
-package com.example.demo.web.rest.dto;
+package com.example.demo.web.rest.dto.request;
 
 public class SaqueDTO {
 
 
-    private Long numeroDaConta;
+    private String numeroDaConta;
 
     private Double valorDoSaque;
 
@@ -13,11 +13,11 @@ public class SaqueDTO {
     public SaqueDTO(double parseDouble, Long id) {
     }
 
-    public Long getNumeroDaConta() {
+    public String getNumeroDaConta() {
         return numeroDaConta;
     }
 
-    public void setNumeroDaConta(Long numeroDaConta) {
+    public void setNumeroDaConta(String numeroDaConta) {
         this.numeroDaConta = numeroDaConta;
     }
 

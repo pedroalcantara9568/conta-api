@@ -1,21 +1,21 @@
-package com.example.demo.web.rest.dto;
+package com.example.demo.web.rest.dto.request;
 
 import java.io.Serializable;
 
 public class DepositoDTO implements Serializable {
 
-    private Long numeroDaConta;
+    private String numeroDaConta;
 
     private Double valorDeposito;
 
     public DepositoDTO() {
     }
 
-    public Long getNumeroDaConta() {
+    public String getNumeroDaConta() {
         return numeroDaConta;
     }
 
-    public void setNumeroDaConta(Long numeroDaConta) {
+    public void setNumeroDaConta(String numeroDaConta) {
         this.numeroDaConta = numeroDaConta;
     }
 
@@ -27,11 +27,4 @@ public class DepositoDTO implements Serializable {
         this.valorDeposito = valorDeposito;
     }
 
-    @Override
-    public String toString() {
-        return "DepositoDTO{" +
-                "numeroDaConta=" + numeroDaConta +
-                ", valorDeposito=" + valorDeposito +
-                '}';
-    }
 }

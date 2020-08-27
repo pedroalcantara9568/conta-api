@@ -2,9 +2,6 @@ package com.example.demo.entity;
 
 
 import com.example.demo.exception.OperacaoNaoAutorizadaException;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,21 +9,24 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 
-@Getter
-@Setter
-@AllArgsConstructor
+
 @Entity
-public class ContaEntity implements Serializable {
+public class Conta implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
+
+    private String numeroConta;
 
     private String nome;
 
     private String cpf;
 
     private Double saldo;
+
+    public Conta() {
+    }
 
     public boolean depositar(Double valor) {
         if (valor > 0) {
@@ -37,17 +37,25 @@ public class ContaEntity implements Serializable {
     }
 
     public boolean saque(Double valor) throws OperacaoNaoAutorizadaException {
+        if (valor > saldo) {
+            throw new OperacaoNaoAutorizadaException("Saldo insuficiente para a operação.");
+        }
         if (valor > 500) {
             throw new OperacaoNaoAutorizadaException("Operação de transferência tem um limite máximo de 500 por operação.");
         }
-        if (saldo >= valor && valor > 0) {
+        if (valor > 0) {
             this.saldo -= valor;
             return true;
         }
         return false;
     }
 
-    public ContaEntity() {
+    public String getNumeroConta() {
+        return numeroConta;
+    }
+
+    public void setNumeroConta(String numeroCartao) {
+        this.numeroConta = numeroCartao;
     }
 
     public Long getId() {

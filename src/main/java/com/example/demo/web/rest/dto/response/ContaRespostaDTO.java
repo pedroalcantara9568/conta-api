@@ -4,23 +4,24 @@ import java.io.Serializable;
 
 public class ContaRespostaDTO implements Serializable {
 
-    private Long numeroDaConta;
+    private String numeroDaConta;
 
     private String mensagem;
 
-    public ContaRespostaDTO(Long numeroDaConta, String mensagem) {
+    public ContaRespostaDTO(String numeroDaConta, String mensagem) {
         this.numeroDaConta = numeroDaConta;
         this.mensagem = mensagem;
     }
 
     public ContaRespostaDTO(String mensagem) {
+        this.mensagem = mensagem;
     }
 
-    public Long getNumeroDaConta() {
+    public String getNumeroDaConta() {
         return numeroDaConta;
     }
 
-    public void setNumeroDaConta(Long numeroDaConta) {
+    public void setNumeroDaConta(String numeroDaConta) {
         this.numeroDaConta = numeroDaConta;
     }
 

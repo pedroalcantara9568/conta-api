@@ -1,8 +1,8 @@
-package com.example.demo.cucumber;
+package com.example.demo.cucumber.steps;
 
-import com.example.demo.web.rest.dto.SaqueDTO;
-import cucumber.api.java8.En;
+import com.example.demo.web.rest.dto.request.SaqueDTO;
 import gherkin.deps.com.google.gson.Gson;
+import io.cucumber.java.Before;
 import io.cucumber.java.pt.Dado;
 import io.cucumber.java.pt.Quando;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,16 +24,23 @@ public class PassosSaque {
     SaqueDTO saqueDTO = new SaqueDTO();
 
     @Autowired
+    PassosCriarConta passosCriarConta;
+
+    @Autowired
     PassosDeposito passosDeposito;
 
     MockMvc mockMvc;
 
-    MvcResult mvcResult;
-
     @Autowired
     private WebApplicationContext context;
 
-    String content;
+    @Autowired
+    PassosPadroesConta passosPadroesConta;
+
+    @Before
+    public void limpaBanco () {
+        this.passosDeposito.contaRepository.deleteAll();
+    }
 
     @PostConstruct
     public void setUp() {
@@ -42,7 +49,7 @@ public class PassosSaque {
 
     @Dado("que seja solicitado um saque de {string}")
     public void queSejaSolicitadoUmSaqueDe (String valorDoSaque) {
-        this.saqueDTO.setNumeroDaConta(passosDeposito.conta.getId());
+        this.saqueDTO.setNumeroDaConta(passosDeposito.conta.getNumeroCartao());
         this.saqueDTO.setValorDoSaque(Double.parseDouble(valorDoSaque));
     }
 
@@ -53,8 +60,7 @@ public class PassosSaque {
                 .contentType(APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print()).andReturn();
-
-        this.mvcResult = result;
-        this.content = result.getResponse().getContentAsString();
+        this.passosPadroesConta.mvcResult = result;
+        this.passosPadroesConta.content = result.getResponse().getContentAsString();
     }
 }

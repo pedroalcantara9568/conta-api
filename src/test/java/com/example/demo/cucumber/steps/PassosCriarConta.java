@@ -1,5 +1,6 @@
-package com.example.demo.cucumber;
+package com.example.demo.cucumber.steps;
 
+import com.example.demo.repository.ContaRepository;
 import com.example.demo.service.ContaService;
 import com.example.demo.web.rest.dto.ContaDTO;
 import com.example.demo.web.rest.dto.response.ContaRespostaDTO;
@@ -36,12 +37,14 @@ public class PassosCriarConta {
 
     MockMvc mockMvc;
 
-    MvcResult mvcResult;
-
-    String content;
+    @Autowired
+    PassosPadroesConta passosPadroesConta;
 
     @Autowired
     ContaService contaService;
+
+    @Autowired
+    ContaRepository contaRepository;
 
     @Autowired
     MappingJackson2HttpMessageConverter jackson2HttpMessageConverter;
@@ -50,6 +53,7 @@ public class PassosCriarConta {
     public void setUp() {
         jackson2HttpMessageConverter.setDefaultCharset(Charset.defaultCharset());
         contaResource = new ContaResource(contaService);
+        contaService = new ContaService(contaRepository);
         this.mockMvc = MockMvcBuilders.standaloneSetup(contaResource)
                 .setControllerAdvice(new RuntimeException())
                 .setMessageConverters(jackson2HttpMessageConverter)
@@ -68,25 +72,13 @@ public class PassosCriarConta {
                 .contentType(APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print()).andReturn();
-
-        this.mvcResult = result;
-        this.content = result.getResponse().getContentAsString();
-    }
-
-    @Então("deverá ser apresentada a seguinte mensagem de erro {string}")
-    public void deveraSerApresentadaASeguinteMensagemDeErro(String mensagem) {
-        Assert.assertEquals(mvcResult.getResolvedException().getMessage(),mensagem);
-    }
-
-    @E("deverá ser apresentada a seguinte mensagem {string}")
-    public void deveraSerApresentadaASeguinteMensagem(String mensagem) {
-        ContaRespostaDTO contaRespostaDTO = new Gson().fromJson(content, ContaRespostaDTO.class);
-        Assert.assertEquals(contaRespostaDTO.getMensagem(),mensagem);
+        this.passosPadroesConta.mvcResult = result;
+        this.passosPadroesConta.content = result.getResponse().getContentAsString();
     }
 
     @Então("deverá ser retornado o número da conta criada")
     public void deveraSerRetornadoONumeroDaContaCriada() {
-        ContaRespostaDTO contaRespostaDTO = new Gson().fromJson(content, ContaRespostaDTO.class);
+        ContaRespostaDTO contaRespostaDTO = new Gson().fromJson(this.passosPadroesConta.content, ContaRespostaDTO.class);
         Assert.assertNotNull(contaRespostaDTO.getNumeroDaConta());
     }
 

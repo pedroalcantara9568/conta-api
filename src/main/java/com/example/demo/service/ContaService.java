@@ -1,67 +1,89 @@
 package com.example.demo.service;
 
-import com.example.demo.entity.ContaEntity;
+import com.example.demo.entity.Conta;
 import com.example.demo.exception.CpfInvalidoException;
 import com.example.demo.exception.SaldoInicialInvalidoException;
 import com.example.demo.repository.ContaRepository;
-import com.example.demo.web.rest.dto.DepositoDTO;
-import com.example.demo.web.rest.dto.SaqueDTO;
-import com.example.demo.web.rest.dto.TransferenciaDTO;
-import com.example.demo.web.rest.dto.mapper.ContaMapper;
 import com.example.demo.web.rest.dto.ContaDTO;
+import com.example.demo.web.rest.dto.mapper.ContaMapper;
+import com.example.demo.web.rest.dto.request.DepositoDTO;
+import com.example.demo.web.rest.dto.request.SaqueDTO;
+import com.example.demo.web.rest.dto.request.TransferenciaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.naming.OperationNotSupportedException;
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.time.LocalDateTime;
+import java.util.Optional;
 
 
 @Service
 public class ContaService {
 
     @Autowired
-    ContaRepository contaRepository;
+    private ContaRepository contaRepository;
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public ContaService(ContaRepository contaRepository) {
         this.contaRepository = contaRepository;
     }
 
     public ContaDTO salvaConta(ContaDTO contaDTO) {
-        ContaEntity entity = ContaMapper.dtoToEntity(contaDTO);
+        Conta entity = ContaMapper.dtoToEntity(contaDTO);
         contaEhValida(entity);
         contaRepository.saveAndFlush(entity);
-        ContaDTO conta = ContaMapper.entityToDto(entity);
-        return conta;
+        entity.setNumeroConta(gerarNumeroConta());
+        return ContaMapper.entityToDto(entity);
     }
 
     public void realizaDeposito(DepositoDTO depositoDTO) {
-        ContaEntity entity = contaRepository.findById(depositoDTO.getNumeroDaConta()).get();
-        entity.depositar(depositoDTO.getValorDeposito());
-        contaRepository.save(entity);
+        Optional<Conta> byId = contaRepository.findByNumeroConta(depositoDTO.getNumeroDaConta());
+        if (byId.isPresent()) {
+            Conta entity = contaRepository.findByNumeroConta(depositoDTO.getNumeroDaConta()).get();
+            entity.depositar(depositoDTO.getValorDeposito());
+            contaRepository.save(entity);
+        }
+
     }
 
     public void realizaSaque(SaqueDTO saqueDTO) throws OperationNotSupportedException {
-        ContaEntity entity = contaRepository.findById(saqueDTO.getNumeroDaConta()).get();
-        if (entity.saque(saqueDTO.getValorDoSaque())) {
-            contaRepository.save(entity);
+        Optional<Conta> byId = contaRepository.findByNumeroConta(saqueDTO.getNumeroDaConta());
+        if (byId.isPresent()) {
+            Conta entity = contaRepository.findByNumeroConta(saqueDTO.getNumeroDaConta()).get();
+            if (entity.saque(saqueDTO.getValorDoSaque())) {
+                contaRepository.save(entity);
+            }
         }
+
     }
 
-    public void realizaTransferencia(TransferenciaDTO transferenciaDTO) {
-        ContaEntity solicitante = contaRepository.getOne(transferenciaDTO.getContaDoSolicitante());
-        ContaEntity beneficiario = contaRepository.getOne(transferenciaDTO.getContaDoBeneficiario());
-        solicitante.saque(transferenciaDTO.getValorDaTransferencia());
-        beneficiario.depositar(transferenciaDTO.getValorDaTransferencia());
-        contaRepository.save(solicitante);
-        contaRepository.save(beneficiario);
+    public void validaTransferencia(TransferenciaDTO transferenciaDTO) {
+        Optional<Conta> byIdSolicitiante = contaRepository.findByNumeroConta(transferenciaDTO.getContaDoSolicitante());
+        Optional<Conta> byIdBeneficiario = contaRepository.findByNumeroConta(transferenciaDTO.getContaDoBeneficiario());
+
+        if (byIdBeneficiario.isPresent() && byIdSolicitiante.isPresent()) {
+            concluiTransferencia(transferenciaDTO);
+        }
+
     }
 
-    public void contaEhValida(ContaEntity contaEntity) {
-        cpfEhValido(contaEntity.getCpf());
-        saldoIncialEhValido(contaEntity.getSaldo());
+    private void concluiTransferencia(TransferenciaDTO transferenciaDTO) {
+        Conta contaDoSolicitante = contaRepository.findByNumeroConta(transferenciaDTO.getContaDoSolicitante()).get();
+        Conta contaDoBeneficiario = contaRepository.findByNumeroConta(transferenciaDTO.getContaDoBeneficiario()).get();
+        contaDoSolicitante.saque(transferenciaDTO.getValorDaTransferencia());
+        contaDoBeneficiario.depositar(transferenciaDTO.getValorDaTransferencia());
+        contaRepository.save(contaDoSolicitante);
+        contaRepository.save(contaDoBeneficiario);
+    }
+
+    public void contaEhValida(Conta conta) {
+        cpfEhValido(conta.getCpf());
+        saldoIncialEhValido(conta.getSaldo());
     }
 
     public void cpfEhValido(String cpf) {
@@ -88,12 +110,20 @@ public class ContaService {
         return strNumber.matches("[-+]?[0-9]*\\.?[0-9]+");
     }
 
-    public List<ContaDTO> buscaTodasContas() {
-        List<ContaEntity>  listaContasEntity = contaRepository.findAll();
-        List<ContaDTO> listaContasDto = new ArrayList<>();
-        for ( ContaEntity l : listaContasEntity  ) {
-           listaContasDto.add(ContaMapper.entityToDto(l));
-        }
-        return listaContasDto;
+    public String gerarNumeroConta() {
+        int anoAtual = LocalDateTime.now().getYear();
+        int digitosFinais = gerarDigitosFinais();
+        String digitosFinaisPreenchidos = preencherComZerosAEsquerda(digitosFinais);
+        return anoAtual + digitosFinaisPreenchidos;
+    }
+
+    private String preencherComZerosAEsquerda(int digitosFinais) {
+        return String.format("%05d", digitosFinais);
+    }
+
+    private int gerarDigitosFinais() {
+        Query consultaPeloProximoValor = entityManager.createNativeQuery("select numero_conta_seq.nextval from dual");
+        Object valorDaSequence = consultaPeloProximoValor.getSingleResult();
+        return Integer.parseInt(String.valueOf(valorDaSequence));
     }
 }

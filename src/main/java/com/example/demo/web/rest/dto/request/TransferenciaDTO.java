@@ -1,18 +1,18 @@
-package com.example.demo.web.rest.dto;
+package com.example.demo.web.rest.dto.request;
 
 public class TransferenciaDTO {
 
-    private Long contaDoSolicitante;
+    private String contaDoSolicitante;
 
     private Double valorDaTransferencia;
 
-    private Long contaDoBeneficiario;
+    private String contaDoBeneficiario;
 
-    public Long getContaDoSolicitante() {
+    public String getContaDoSolicitante() {
         return contaDoSolicitante;
     }
 
-    public void setContaDoSolicitante(Long contaDoSolicitante) {
+    public void setContaDoSolicitante(String contaDoSolicitante) {
         this.contaDoSolicitante = contaDoSolicitante;
     }
 
@@ -24,11 +24,11 @@ public class TransferenciaDTO {
         this.valorDaTransferencia = valorDaTransferencia;
     }
 
-    public Long getContaDoBeneficiario() {
+    public String getContaDoBeneficiario() {
         return contaDoBeneficiario;
     }
 
-    public void setContaDoBeneficiario(Long contaDoBeneficiario) {
+    public void setContaDoBeneficiario(String contaDoBeneficiario) {
         this.contaDoBeneficiario = contaDoBeneficiario;
     }
 }

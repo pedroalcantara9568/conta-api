@@ -1,1 +1,1 @@
-INSERT INTO CONTAENTITY(id, )
+create sequence numero_conta_seq;

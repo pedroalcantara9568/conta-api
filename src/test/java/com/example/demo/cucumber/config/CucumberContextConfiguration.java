@@ -1,4 +1,4 @@
-package com.example.demo.cucumber;
+package com.example.demo.cucumber.config;
 
 import com.example.demo.BancoApplication;
 import io.cucumber.java.Before;
@@ -15,4 +15,5 @@ public class CucumberContextConfiguration {
     public void setup_cucumber_spring_context() {
 
     }
+
 }
