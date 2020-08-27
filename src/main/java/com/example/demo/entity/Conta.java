@@ -4,12 +4,17 @@ package com.example.demo.entity;
 import com.example.demo.exception.CpfInvalidoException;
 import com.example.demo.exception.OperacaoNaoAutorizadaException;
 import com.example.demo.exception.SaldoInicialInvalidoException;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Conta implements Serializable {
 
@@ -24,41 +29,6 @@ public class Conta implements Serializable {
     private String cpf;
 
     private Double saldo;
-
-    public Conta() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
-    public Double getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(Double saldo) {
-        this.saldo = saldo;
-    }
 
     public boolean depositar(Double valor) {
         if (valor > 0) {
@@ -81,6 +51,7 @@ public class Conta implements Serializable {
         }
         return false;
     }
+
     public void cpfEhValido(String cpf) {
         if (cpf.isEmpty()) {
             throw new CpfInvalidoException("É necessário informar um cpf para abertura de nova conta.");
