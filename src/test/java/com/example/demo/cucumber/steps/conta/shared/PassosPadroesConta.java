@@ -1,4 +1,4 @@
-package com.example.demo.cucumber.steps.def;
+package com.example.demo.cucumber.steps.conta.def;
 
 import com.example.demo.entity.Conta;
 import com.example.demo.repository.ContaRepository;
@@ -7,7 +7,6 @@ import gherkin.deps.com.google.gson.Gson;
 import io.cucumber.java.pt.E;
 import io.cucumber.java.pt.Então;
 import org.junit.Assert;
-import org.junit.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -15,6 +14,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.annotation.PostConstruct;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PassosPadroesConta {
 
@@ -37,13 +38,14 @@ public class PassosPadroesConta {
 
     @Então("deverá ser apresentada a seguinte mensagem de erro {string}")
     public void deveraSerApresentadaASeguinteMensagemDeErro(String mensagem) {
-        Assert.assertEquals(mvcResult.getResolvedException().getMessage(), mensagem);
+        assert mvcResult.getResolvedException().getMessage().equals(mensagem);
+
     }
 
     @E("deverá ser apresentada a seguinte mensagem {string}")
     public void deveraSerApresentadaASeguinteMensagem(String mensagem) {
         ContaRespostaDTO contaRespostaDTO = new Gson().fromJson(content, ContaRespostaDTO.class);
-        Assert.assertEquals(contaRespostaDTO.getMensagem(), mensagem);
+        assert contaRespostaDTO.getMensagem().equals(mensagem);
     }
 
     @E("o saldo da conta {string} deverá ser de {string}")
