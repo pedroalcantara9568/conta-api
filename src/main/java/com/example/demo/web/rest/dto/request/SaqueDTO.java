@@ -1,16 +1,12 @@
 package com.example.demo.web.rest.dto.request;
 
 public class SaqueDTO {
-
-
+    
     private String numeroDaConta;
 
     private Double valorDoSaque;
 
     public SaqueDTO() {
-    }
-
-    public SaqueDTO(double parseDouble, Long id) {
     }
 
     public String getNumeroDaConta() {

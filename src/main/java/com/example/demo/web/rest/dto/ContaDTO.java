@@ -56,13 +56,4 @@ public class ContaDTO {
         this.saldo = saldo;
     }
 
-    @Override
-    public String toString() {
-        return "ContaDTO{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", saldo=" + saldo +
-                '}';
-    }
 }

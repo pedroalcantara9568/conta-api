@@ -21,16 +21,8 @@ public class ContaRespostaDTO implements Serializable {
         return numeroDaConta;
     }
 
-    public void setNumeroDaConta(String numeroDaConta) {
-        this.numeroDaConta = numeroDaConta;
-    }
-
     public String getMensagem() {
         return mensagem;
-    }
-
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
     }
 
 }

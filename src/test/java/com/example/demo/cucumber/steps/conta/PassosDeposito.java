@@ -45,7 +45,7 @@ public class PassosDeposito {
     }
 
     @Dado("que existam as seguintes contas")
-    public void queExistamAsSeguintesContas(DataTable tabela) throws Exception {
+    public void queExistamAsSeguintesContas(DataTable tabela) {
         deTabelaParaBanco(tabela);
     }
 

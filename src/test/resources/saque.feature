@@ -18,3 +18,9 @@ Funcionalidade: Realização de operação de saque
     Quando for executada a operação de saque
     Então deverá ser apresentada a seguinte mensagem "Saque realizado com sucesso!"
     E o saldo da conta "123456" deverá ser de "500.0"
+
+  Cenário: 03 - Realização de saque com sucesso
+    Dado que seja solicitado um saque de "-500.0"
+    Quando for executada a operação de saque
+    Então deverá ser apresentada a seguinte mensagem de erro "Não é possível sacar um valor negativo"
+    E o saldo da conta "123456" deverá ser de "1000.0"

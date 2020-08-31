@@ -23,7 +23,15 @@ Funcionalidade: Criar nova conta no banco
     Quando for enviada a solicitação de criação de nova conta
     Então deverá ser apresentada a seguinte mensagem de erro "CPF informado para criação de conta está inválido."
 
-  Cenário: 04 - Criação de conta com sucesso
+  Cenário: 03 - Criação de conta com cpf inválido com letras de a-z
+    Dado que seja solicitada a criação de uma nova conta com os seguintes valores
+    |Nome   |Cpf         |Saldo|
+    |Pedro  | diumdjdhcnc|50.0 |
+    Quando for enviada a solicitação de criação de nova conta
+    Então deverá ser apresentada a seguinte mensagem de erro "CPF informado para criação de conta está inválido."
+
+
+  Cenário: 05 - Criação de conta com sucesso
     Dado que seja solicitada a criação de uma nova conta com os seguintes valores
       | Nome     | Cpf         | Saldo  |
       | John Doe | 17448936590 | 50.00  |
