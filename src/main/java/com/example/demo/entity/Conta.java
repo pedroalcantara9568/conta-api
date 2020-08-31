@@ -49,11 +49,11 @@ public class Conta implements Serializable {
         if (!(valor > 0)) {
             throw new OperacaoNaoAutorizadaException("Não é possível sacar um valor negativo");
         }
-        this.saldo -= valor;
+        saldo -= valor;
         return true;
     }
 
-    public boolean cpfEhValido(String cpf) {
+    public void cpfEhValido(String cpf) {
         if (cpf.isEmpty()) {
             throw new CpfInvalidoException("É necessário informar um cpf para abertura de nova conta.");
         }
@@ -63,7 +63,6 @@ public class Conta implements Serializable {
         if (!ehNumerico(cpf)) {
             throw new CpfInvalidoException("CPF informado para criação de conta está inválido.");
         }
-        return true;
     }
 
     public boolean saldoIncialEhValido(Double valor) {
@@ -87,7 +86,7 @@ public class Conta implements Serializable {
         int anoAtual = LocalDateTime.now().getYear();
         int digitosFinais = gerarDigitosFinais( entityManager);
         String digitosFinaisPreenchidos = preencherComZerosAEsquerda(digitosFinais);
-        return this.numeroConta = anoAtual + digitosFinaisPreenchidos;
+        return numeroConta = anoAtual + digitosFinaisPreenchidos;
     }
 
     private String preencherComZerosAEsquerda(int digitosFinais) {
@@ -105,6 +104,6 @@ public class Conta implements Serializable {
     }
 
     public String getNumeroConta() {
-        return this.numeroConta;
+        return numeroConta;
     }
 }
