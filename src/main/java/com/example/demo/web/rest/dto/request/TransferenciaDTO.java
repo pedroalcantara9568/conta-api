@@ -1,6 +1,8 @@
 package com.example.demo.web.rest.dto.request;
 
-public class TransferenciaDTO {
+import java.io.Serializable;
+
+public class TransferenciaDTO implements Serializable {
 
     private String contaDoSolicitante;
 

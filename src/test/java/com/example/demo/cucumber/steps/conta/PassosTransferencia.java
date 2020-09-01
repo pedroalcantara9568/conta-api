@@ -43,7 +43,7 @@ public class PassosTransferencia {
         for (Map<String, String> columns : linhas) {
             transferenciaDTO.setContaDoBeneficiario(columns.get("Conta do Beneficiário"));
             transferenciaDTO.setContaDoSolicitante(columns.get("Conta do Solicitante"));
-            transferenciaDTO.setValorDaTransferencia(Double.parseDouble(columns.get("Valor")));
+            transferenciaDTO.setValorDaTransferencia(Double.parseDouble(columns.get("Valor da Transferência")));
         }
     }
 

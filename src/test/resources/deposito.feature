@@ -15,7 +15,6 @@ Funcionalidade: Realização de operação de depósito
       Quando for executada a operação de depósito
       Então deverá ser apresentada a seguinte mensagem "Depósito realizado com sucesso!"
       E o saldo da conta "<NumeroDaConta>" deverá ser de <ValorFinalEsperado>
-
       Exemplos:
         |ValorDoDeposito   | NumeroDaConta | ValorFinalEsperado |
         |500.0             | 123456        | 1500.0             |
@@ -28,7 +27,6 @@ Funcionalidade: Realização de operação de depósito
       Quando for executada a operação de depósito
       Então deverá ser apresentada a seguinte mensagem de erro "Não é possivel depositar valor negativo"
       E o saldo da conta "<NumeroDaConta>" deverá ser de <ValorInicial>
-
       Exemplos:
         | ValorDoDeposito   | NumeroDaConta | ValorInicial |
         | -501.0            | 123456        | 1000.0       |
