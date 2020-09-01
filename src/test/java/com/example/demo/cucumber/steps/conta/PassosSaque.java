@@ -21,13 +21,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 
 public class PassosSaque {
 
-    SaqueDTO saqueDTO = new SaqueDTO();
+    SaqueDTO saqueDTO;
 
-    @Autowired
-    PassosCriarConta passosCriarConta;
-
-    @Autowired
-    PassosDeposito passosDeposito;
 
     MockMvc mockMvc;
 
@@ -37,16 +32,15 @@ public class PassosSaque {
     @Autowired
     PassosPadroesConta passosPadroesConta;
 
+    @Autowired
+    PassosCriarConta passosCriarConta;
+
+    @Autowired
+    PassosDeposito passosDeposito;
 
     @PostConstruct
     public void setUp() {
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-    }
-
-    @Dado("que seja solicitado um saque de {string}")
-    public void queSejaSolicitadoUmSaqueDe (String valorDoSaque) {
-        this.saqueDTO.setNumeroDaConta(passosDeposito.contaDTO.getNumeroConta());
-        this.saqueDTO.setValorDoSaque(Double.parseDouble(valorDoSaque));
     }
 
     @Quando("for executada a operação de saque")
@@ -58,5 +52,10 @@ public class PassosSaque {
                 .andDo(print()).andReturn();
         this.passosPadroesConta.mvcResult = result;
         this.passosPadroesConta.content = result.getResponse().getContentAsString();
+    }
+
+    @Dado("que seja solicitado um saque de {double} na conta {string}")
+    public void queSejaSolicitadoUmSaqueDeNaConta( Double valorDoSaque, String numeroDaConta) {
+      saqueDTO = new SaqueDTO(valorDoSaque, numeroDaConta);
     }
 }

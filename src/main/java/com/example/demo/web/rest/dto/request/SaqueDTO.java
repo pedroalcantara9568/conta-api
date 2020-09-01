@@ -9,6 +9,11 @@ public class SaqueDTO {
     public SaqueDTO() {
     }
 
+    public SaqueDTO(Double valorDoSaque, String numeroDaConta) {
+        this.numeroDaConta = numeroDaConta;
+        this.valorDoSaque = valorDoSaque;
+    }
+
     public String getNumeroDaConta() {
         return numeroDaConta;
     }

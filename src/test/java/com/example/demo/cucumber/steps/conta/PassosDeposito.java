@@ -2,6 +2,7 @@ package com.example.demo.cucumber.steps.conta;
 
 
 import com.example.demo.cucumber.steps.conta.shared.PassosPadroesConta;
+import com.example.demo.entity.Conta;
 import com.example.demo.repository.ContaRepository;
 import com.example.demo.web.rest.dto.ContaDTO;
 import com.example.demo.web.rest.dto.mapper.ContaMapper;
@@ -19,8 +20,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.asyncDispatch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -56,7 +59,7 @@ public class PassosDeposito {
             contaDTO.setCpf(columns.get("Cpf"));
             contaDTO.setNome(columns.get("Nome"));
             contaDTO.setSaldo(Double.parseDouble(columns.get("Saldo")));
-            contaDTO.setNumeroConta((columns.get("Numero Conta")));
+            contaDTO.setNumeroConta((columns.get("Numero")));
             passosPadroesConta.contaRepository.save(ContaMapper.dtoToEntity(contaDTO));
         }
     }
@@ -67,7 +70,7 @@ public class PassosDeposito {
     public void forExecutadaAOperacaoDeDeposito() throws Exception {
         MvcResult result = passosPadroesConta.mockMvc.perform(post("http://localhost:8080/conta/deposito")
                 .content(new Gson().toJson(this.depositoDoCenario))
-                .contentType(APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print()).andReturn();
         passosPadroesConta.mvcResult = result;
@@ -82,6 +85,10 @@ public class PassosDeposito {
 
     @E("o saldo da conta {string} deverá ser de {double}")
     public void oSaldoDaContaDeveraSerDe(String numeroDaConta, Double saldoFinal) {
-
+        Optional<Conta> byNumeroConta = contaRepository.findByNumeroConta(numeroDaConta);
+        if(byNumeroConta.isPresent()){
+            Conta conta = byNumeroConta.get();
+            assert  conta.getSaldo().equals((saldoFinal));
+        }
     }
 }
