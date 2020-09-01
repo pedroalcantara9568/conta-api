@@ -53,21 +53,15 @@ public class PassosDeposito {
         contaDTO = new ContaDTO();
         List<Map<String, String>> linhas = tabela.asMaps(String.class, String.class);
         for (Map<String, String> columns : linhas) {
-            contaDTO.setCpf("12345678912");
-            contaDTO.setNome("Pedro Henrique Silva de Alcântara");
+            contaDTO.setCpf(columns.get("Cpf"));
+            contaDTO.setNome(columns.get("Nome"));
             contaDTO.setSaldo(Double.parseDouble(columns.get("Saldo")));
             contaDTO.setNumeroConta((columns.get("Numero Conta")));
             passosPadroesConta.contaRepository.save(ContaMapper.dtoToEntity(contaDTO));
         }
     }
 
-    @E("que seja solicitado um depósito de {string}")
-    public void queSejaSolicitadoUmDepositoDe(String valorDeposito) {
-        DepositoDTO depositoDTO = new DepositoDTO();
-        depositoDTO.setNumeroDaConta(this.contaDTO.getNumeroConta());
-        depositoDTO.setValorDeposito(Double.parseDouble(valorDeposito));
-        depositoDoCenario = depositoDTO;
-    }
+
 
     @Quando("for executada a operação de depósito")
     public void forExecutadaAOperacaoDeDeposito() throws Exception {
@@ -81,4 +75,13 @@ public class PassosDeposito {
     }
 
 
+    @E("que seja solicitado um depósito de {double} na conta {string}")
+    public void queSejaSolicitadoUmDepositoDeNaConta(Double valorDoDeposito, String numeroDaConta) {
+        this.depositoDoCenario = new DepositoDTO(valorDoDeposito, numeroDaConta);
+    }
+
+    @E("o saldo da conta {string} deverá ser de {double}")
+    public void oSaldoDaContaDeveraSerDe(String numeroDaConta, Double saldoFinal) {
+
+    }
 }

@@ -11,6 +11,11 @@ public class DepositoDTO implements Serializable {
     public DepositoDTO() {
     }
 
+    public DepositoDTO(Double valorDoDeposito, String numeroDaConta) {
+        this.valorDeposito = valorDoDeposito;
+        this.numeroDaConta = numeroDaConta;
+    }
+
     public String getNumeroDaConta() {
         return numeroDaConta;
     }

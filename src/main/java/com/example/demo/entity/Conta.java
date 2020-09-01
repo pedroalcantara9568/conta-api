@@ -4,7 +4,6 @@ package com.example.demo.entity;
 import com.example.demo.exception.CpfInvalidoException;
 import com.example.demo.exception.OperacaoNaoAutorizadaException;
 import com.example.demo.exception.SaldoInicialInvalidoException;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,6 +18,8 @@ import java.time.LocalDateTime;
 @Entity
 public class Conta implements Serializable {
 
+    private static final String CONSULTA_NUMERO = "select numero_conta_seq.nextval from dual";
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -31,10 +32,10 @@ public class Conta implements Serializable {
 
     private Double saldo;
 
-    public boolean depositar(Double valor) {
+    public void depositar(Double valor) throws OperacaoNaoAutorizadaException {
         if (valor > 0) {
             this.saldo += valor;
-            return true;
+            return;
         }
         throw new OperacaoNaoAutorizadaException("Não é possivel depositar valor negativo");
     }
@@ -53,7 +54,7 @@ public class Conta implements Serializable {
         return true;
     }
 
-    public void cpfEhValido(String cpf) {
+    public void cpfEhValido(String cpf) throws CpfInvalidoException {
         if (cpf.isEmpty()) {
             throw new CpfInvalidoException("É necessário informar um cpf para abertura de nova conta.");
         }
@@ -65,11 +66,10 @@ public class Conta implements Serializable {
         }
     }
 
-    public boolean saldoIncialEhValido(Double valor) {
+    public void saldoIncialEhValido(Double valor) throws SaldoInicialInvalidoException {
         if (valor < 50) {
             throw new SaldoInicialInvalidoException("Saldo insuficiente para abertura de nova conta.");
         }
-        return true;
     }
 
     public boolean ehNumerico(String strNumber) {
@@ -78,15 +78,15 @@ public class Conta implements Serializable {
     }
 
     public void contaEhValida(Conta conta) {
-          cpfEhValido(conta.getCpf());
-          saldoIncialEhValido(conta.getSaldo());
+        cpfEhValido(conta.getCpf());
+        saldoIncialEhValido(conta.getSaldo());
     }
 
-    public String gerarNumeroConta(EntityManager entityManager) {
+    public void gerarNumeroConta(EntityManager entityManager) {
         int anoAtual = LocalDateTime.now().getYear();
-        int digitosFinais = gerarDigitosFinais( entityManager);
+        int digitosFinais = gerarDigitosFinais(entityManager);
         String digitosFinaisPreenchidos = preencherComZerosAEsquerda(digitosFinais);
-        return numeroConta = anoAtual + digitosFinaisPreenchidos;
+        numeroConta = anoAtual + digitosFinaisPreenchidos;
     }
 
     private String preencherComZerosAEsquerda(int digitosFinais) {
@@ -94,16 +94,8 @@ public class Conta implements Serializable {
     }
 
     private int gerarDigitosFinais(EntityManager entityManager) {
-        Query consultaPeloProximoValor = entityManager.createNativeQuery("select numero_conta_seq.nextval from dual");
+        Query consultaPeloProximoValor = entityManager.createNativeQuery(CONSULTA_NUMERO);
         Object valorDaSequence = consultaPeloProximoValor.getSingleResult();
         return Integer.parseInt(String.valueOf(valorDaSequence));
-    }
-
-    public void setNumeroConta(String numeroConta) {
-        this.numeroConta = numeroConta;
-    }
-
-    public String getNumeroConta() {
-        return numeroConta;
     }
 }
