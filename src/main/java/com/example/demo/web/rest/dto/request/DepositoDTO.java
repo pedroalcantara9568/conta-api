@@ -17,16 +17,10 @@ public class DepositoDTO implements Serializable {
         return numeroDaConta;
     }
 
-    public void setNumeroDaConta(String numeroDaConta) {
-        this.numeroDaConta = numeroDaConta;
-    }
 
     public Double getValorDeposito() {
         return valorDeposito;
     }
 
-    public void setValorDeposito(Double valorDeposito) {
-        this.valorDeposito = valorDeposito;
-    }
 
 }

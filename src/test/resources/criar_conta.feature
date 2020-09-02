@@ -21,7 +21,7 @@ Funcionalidade: Criar nova conta no banco
       | Jhon Frend      | 10338938565 | 49.00 | Saldo insuficiente para abertura de nova conta.           |
       | Pedro Henrique  |             | 48.00 | É necessário informar um cpf para abertura de nova conta. |
       | Paulo Vital     | 6549873     | 0.00  | CPF informado para criação de conta está inválido.        |
-      | Freud da Grécia | ONGOING     | 10.00 | CPF informado para criação de conta está inválido.        |
+      | Freud da Grécia | opoinhudjnc | 10.00 | CPF informado para criação deve ser numérico.             |
 
 
 

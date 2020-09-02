@@ -62,7 +62,7 @@ public class Conta implements Serializable {
             throw new CpfInvalidoException("CPF informado para criação de conta está inválido.");
         }
         if (!ehNumerico(cpf)) {
-            throw new CpfInvalidoException("CPF informado para criação de conta está inválido.");
+            throw new CpfInvalidoException("CPF informado para criação deve ser numérico.");
         }
     }
 

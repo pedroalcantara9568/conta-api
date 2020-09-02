@@ -88,10 +88,6 @@ public class ContaService {
         if (depositoDTO.getNumeroDaConta().isEmpty() || depositoDTO.getNumeroDaConta() == null) {
             throw new OperacaoNaoAutorizadaException("A conta do beneficiario deve ser informada!");
         }
-        if (depositoDTO.getValorDeposito() == null) {
-            throw new OperacaoNaoAutorizadaException("O valor do depósito deve ser informado!");
-        }
     }
-
 
 }
