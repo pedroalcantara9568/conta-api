@@ -47,6 +47,11 @@ public class PassosDeposito {
         contaRepository.deleteAll();
     }
 
+    @Dado("que exista a seguinte conta")
+    public void queExistamASeguinteConta(DataTable tabela) {
+        deTabelaParaBanco(tabela);
+    }
+
     @Dado("que existam as seguintes contas")
     public void queExistamAsSeguintesContas(DataTable tabela) {
         deTabelaParaBanco(tabela);
@@ -64,13 +69,11 @@ public class PassosDeposito {
         }
     }
 
-
-
     @Quando("for executada a operação de depósito")
     public void forExecutadaAOperacaoDeDeposito() throws Exception {
         MvcResult result = passosPadroesConta.mockMvc.perform(post("http://localhost:8080/conta/deposito")
                 .content(new Gson().toJson(this.depositoDoCenario))
-                .contentType(MediaType.APPLICATION_JSON)
+                .contentType(APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON_UTF8_VALUE))
                 .andDo(print()).andReturn();
         passosPadroesConta.mvcResult = result;

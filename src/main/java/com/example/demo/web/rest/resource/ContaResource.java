@@ -42,7 +42,7 @@ public class ContaResource {
 
     @PostMapping("/transfencia")
     public ResponseEntity<Object> transferir(@RequestBody TransferenciaDTO transferenciaDTO) {
-        contaService.validaTransferencia(transferenciaDTO);
+        contaService.realizaTransferencia(transferenciaDTO);
         return ResponseEntity.ok(new ContaRespostaDTO("Transferência realizada com sucesso!"));
     }
 

@@ -10,7 +10,7 @@ Funcionalidade: Transferência de valores entre contas
       | 654321 | 1500.0 | Paulo Joao     | 65432133121 |
       | 159357 | 1500.0 | Henrique Pedro | 15935765432 |
 
-  Delineacao do Cenario: transferência realizada com sucesso
+  Delineacao do Cenario: 01 - Transferências realizadas com sucesso
     Dado que seja solicitada um transferência com as seguintes informações
       | Conta do Solicitante   | Valor da Transferência  | Conta do Beneficiário        |
       | <ContaDoSolicitante>   |  <ValorDaTransferência> | <NumeroDaContaBeneficiario>  |
@@ -24,7 +24,7 @@ Funcionalidade: Transferência de valores entre contas
       | 654321             | 500.0                | 159357                    | 2000.0     |
       | 159357             | 500.0                | 123456                    | 2000.0     |
 
-  Delineacao do Cenario: tentativas transferências frustradas
+  Delineacao do Cenario: 02 - Transferências frustradas
     Dado que seja solicitada um transferência com as seguintes informações
       | Conta do Solicitante   | Valor da Transferência | Conta do Beneficiário          |
       | <ContaDoSolicitante>   | <ValorDaTransferência> | <Numero da conta beneficiário> |
@@ -34,5 +34,8 @@ Funcionalidade: Transferência de valores entre contas
       | ContaDoSolicitante | ValorDaTransferência | Numero da conta beneficiário | Mensagem                                                                 |
       | 123456             | 501.0                | 951357                       | Operação de transferência tem um limite máximo de 500 por operação.      |
       | 951357             | 1550.0               | 654321                       | Saldo insuficiente para a operação.                                      |
+      | 654321             | 500.0                |                              | O beneficiário deve ser informado!                                       |
+      |                    | 500.0                | 654321                       | O Solicitante deve ser informado!                                        |
+      | 123456             | -80.0                | 654321                       | Não é possivel transferir valor negativo                                 |
 
 
