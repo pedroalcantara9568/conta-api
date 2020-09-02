@@ -98,4 +98,5 @@ public class Conta implements Serializable {
         Object valorDaSequence = consultaPeloProximoValor.getSingleResult();
         return Integer.parseInt(String.valueOf(valorDaSequence));
     }
+
 }

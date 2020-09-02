@@ -15,7 +15,7 @@ Funcionalidade: Transferência de valores entre contas
       | Conta do Solicitante   | Valor da Transferência  | Conta do Beneficiário        |
       | <ContaDoSolicitante>   |  <ValorDaTransferência> | <NumeroDaContaBeneficiario>  |
     Quando for executada a operação de transferência
-    Então deverá ser apresentada a seguinte mensagem "Transferência realizada com sucesso!"
+    Então deverá ser apresentada a seguinte mensagem: "Transferência realizada com sucesso!"
     E o saldo da conta "<NumeroDaContaBeneficiario>" deverá ser de <SaldoFinal>
     Exemplos:
       | ContaDoSolicitante | ValorDaTransferência | NumeroDaContaBeneficiario | SaldoFinal |
@@ -29,23 +29,10 @@ Funcionalidade: Transferência de valores entre contas
       | Conta do Solicitante   | Valor da Transferência | Conta do Beneficiário          |
       | <ContaDoSolicitante>   | <ValorDaTransferência> | <Numero da conta beneficiário> |
     Quando for executada a operação de transferência
-    Então deverá ser apresentada a seguinte mensagem de erro "Operação de transferência tem um limite máximo de 500 por operação."
+    Então deverá ser apresentada a seguinte mensagem de erro: "<Mensagem>"
     Exemplos:
-      | ContaDoSolicitante | ValorDaTransferência | Numero da conta beneficiário |
-      | 123456             | 501.0                | 951357                       |
-      | 951357             | 660.0                | 654321                       |
-      | 654321             | 770.0                | 159357                       |
-      | 159357             | 880.0                | 123456                       |
+      | ContaDoSolicitante | ValorDaTransferência | Numero da conta beneficiário | Mensagem                                                                 |
+      | 123456             | 501.0                | 951357                       | Operação de transferência tem um limite máximo de 500 por operação.      |
+      | 951357             | 660.0                | 654321                       | Saldo insuficiente para a operação.                                      |
 
-  Delineacao do Cenario: tentativa de transferência acima do valor que o solicitante possui na conta
-    Dado que seja solicitada um transferência com as seguintes informações
-      | Conta do Solicitante   | Valor da Transferência | Conta do Beneficiário          |
-      | <ContaDoSolicitante>   | <ValorDaTransferência> | <Numero da conta beneficiário> |
-    Quando for executada a operação de transferência
-    Então deverá ser apresentada a seguinte mensagem de erro "Saldo insuficiente para a operação."
-    Exemplos:
-      | ContaDoSolicitante | ValorDaTransferência | Numero da conta beneficiário |
-      | 123456             | 1001.0               | 951357                       |
-      | 951357             | 2000.0               | 654321                       |
-      | 654321             | 3000.0               | 159357                       |
-      | 159357             | 4000.0               | 123456                       |
+
