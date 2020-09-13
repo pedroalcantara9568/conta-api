@@ -1,4 +1,4 @@
-package com.example.demo.exception;
+package com.example.demo.web.rest.exception;
 
 import java.io.Serializable;
 import java.util.Date;

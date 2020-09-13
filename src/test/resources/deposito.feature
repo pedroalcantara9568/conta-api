@@ -10,11 +10,11 @@ Funcionalidade: Realização de operação de depósito
     Delineacao do Cenario: 01 - Depósito com sucesso
       E que seja solicitado um depósito de <ValorDoDeposito> na conta "<NumeroDaConta>"
       Quando for executada a operação de depósito
-      Então deverá ser apresentada a seguinte mensagem: "Depósito realizado com sucesso!"
+      Então deverá ser apresentada a seguinte mensagem: "<Mensagem>"
       E o saldo da conta "<NumeroDaConta>" deverá ser de <ValorFinalEsperado>
       Exemplos:
-        | ValorDoDeposito   | NumeroDaConta | ValorFinalEsperado |
-        | 500.0             | 123456        | 1500.0             |
+        | ValorDoDeposito   | NumeroDaConta | ValorFinalEsperado | Mensagem                                   |
+        | 500.0             | 123456        | 1500.0             | Depósito realizado com sucesso!            |
 
     Delineação do Cenário: 02 - Depósito negado
       E que seja solicitado um depósito de <ValorDoDeposito> na conta "<NumeroDaConta>"

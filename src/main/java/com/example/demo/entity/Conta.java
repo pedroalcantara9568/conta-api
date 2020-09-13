@@ -1,9 +1,9 @@
 package com.example.demo.entity;
 
 
-import com.example.demo.exception.CpfInvalidoException;
-import com.example.demo.exception.OperacaoNaoAutorizadaException;
-import com.example.demo.exception.SaldoInicialInvalidoException;
+import com.example.demo.web.rest.exception.CpfInvalidoException;
+import com.example.demo.web.rest.exception.OperacaoNaoAutorizadaException;
+import com.example.demo.web.rest.exception.SaldoInicialInvalidoException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

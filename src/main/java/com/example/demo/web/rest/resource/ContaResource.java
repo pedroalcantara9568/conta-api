@@ -1,7 +1,7 @@
 package com.example.demo.web.rest.resource;
 
 
-import com.example.demo.exception.OperacaoNaoAutorizadaException;
+import com.example.demo.web.rest.exception.OperacaoNaoAutorizadaException;
 import com.example.demo.service.ContaService;
 import com.example.demo.web.rest.dto.ContaDTO;
 import com.example.demo.web.rest.dto.request.DepositoDTO;
@@ -24,8 +24,8 @@ public class ContaResource {
 
     @PostMapping
     public ResponseEntity<Object> cadastraConta(@RequestBody ContaDTO contaDTO) throws IOException {
-        ContaDTO contaCadastrada = contaService.salvaConta(contaDTO);
-        return ResponseEntity.ok(new ContaRespostaDTO(contaCadastrada.getNumeroConta(), "Conta cadastrada com sucesso!"));
+        return ResponseEntity.ok(new ContaRespostaDTO(contaService.salvaConta(contaDTO).getNumeroConta(), "Conta cadastrada com sucesso!"));
+
     }
 
     @PostMapping("/deposito")

@@ -1,7 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Conta;
-import com.example.demo.exception.OperacaoNaoAutorizadaException;
+import com.example.demo.web.rest.exception.OperacaoNaoAutorizadaException;
 import com.example.demo.repository.ContaRepository;
 import com.example.demo.web.rest.dto.ContaDTO;
 import com.example.demo.web.rest.dto.mapper.ContaMapper;
