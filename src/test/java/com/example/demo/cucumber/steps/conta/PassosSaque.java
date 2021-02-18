@@ -3,8 +3,8 @@ package com.example.demo.cucumber.steps.conta;
 import com.example.demo.cucumber.steps.conta.shared.PassosPadroesConta;
 import com.example.demo.web.rest.dto.request.SaqueDTO;
 import gherkin.deps.com.google.gson.Gson;
-import io.cucumber.java.pt.Dado;
-import io.cucumber.java.pt.Quando;
+import cucumber.api.java.pt.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;

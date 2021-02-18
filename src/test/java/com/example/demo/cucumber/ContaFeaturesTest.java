@@ -1,13 +1,14 @@
 package com.example.demo.cucumber;
 
-import io.cucumber.junit.Cucumber;
-import io.cucumber.junit.CucumberOptions;
+import cucumber.api.CucumberOptions;
+import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
-import org.springframework.context.annotation.Configuration;
+
 
 @RunWith(Cucumber.class)
-@CucumberOptions(features = "src/test/resources")
-@Configuration
+@CucumberOptions(features = "src/test/resources", plugin = {"pretty", "json:target/cucumber-report.json"})
 public class ContaFeaturesTest {
 
 }
+
+

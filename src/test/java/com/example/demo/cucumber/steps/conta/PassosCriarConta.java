@@ -3,11 +3,11 @@ package com.example.demo.cucumber.steps.conta;
 import com.example.demo.cucumber.steps.conta.shared.PassosPadroesConta;
 import com.example.demo.web.rest.dto.ContaDTO;
 import com.example.demo.web.rest.dto.response.ContaRespostaDTO;
+import cucumber.api.java.pt.Dado;
+import cucumber.api.java.pt.Então;
+import cucumber.api.java.pt.Quando;
 import gherkin.deps.com.google.gson.Gson;
 import io.cucumber.datatable.DataTable;
-import io.cucumber.java.es.Dado;
-import io.cucumber.java.pt.Então;
-import io.cucumber.java.pt.Quando;
 import org.junit.Assert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -29,8 +29,9 @@ public class PassosCriarConta {
     private PassosPadroesConta passosPadroesConta;
 
     @Dado("que seja solicitada a criação de uma nova conta com os seguintes valores")
-    public void queSejaSolicitadaAhCriacaoDeUmaNovaContaComOsSeguintesValores(DataTable tabela) {
-        this.conta = deTabelaParaContaDto(tabela);
+    public void queSejaSolicitadaAhCriacaoDeUmaNovaContaComOsSeguintesValores(DataTable conta) {
+        this.conta = deTabelaParaContaDto(conta);
+
     }
 
     @Quando("for enviada a solicitação de criação de nova conta")
