@@ -43,10 +43,10 @@ public class ContaService {
         }
     }
 
-    public void realizaSaque(SaqueDTO saqueDTO) {
-        Optional<Conta> byId = contaRepository.findByNumeroConta(saqueDTO.getNumeroDaConta());
-        if (byId.isPresent()) {
-            Conta entity = byId.get();
+    public void realizarSaque(SaqueDTO saqueDTO) {
+        Optional<Conta> contaConsultada = contaRepository.findByNumeroConta(saqueDTO.getNumeroDaConta());
+        if (contaConsultada.isPresent()) {
+            Conta entity = contaConsultada.get();
             if (entity.saque(saqueDTO.getValorDoSaque())) {
                 contaRepository.save(entity);
             }
